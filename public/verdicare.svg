@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="748.63708mm"
+   height="124.93036mm"
+   viewBox="0 0 748.63709 124.93036"
+   version="1.1"
+   id="svg1"
+   xml:space="preserve"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+     id="defs1"><rect
+       x="910.5481"
+       y="136.71893"
+       width="2477.3469"
+       height="546.87573"
+       id="rect1" /><linearGradient
+       id="linearGradient16"><stop
+         style="stop-color:#98d244;stop-opacity:1;"
+         offset="0"
+         id="stop16" /><stop
+         style="stop-color:#0b8d79;stop-opacity:1;"
+         offset="1"
+         id="stop17" /></linearGradient><linearGradient
+       xlink:href="#linearGradient16"
+       id="linearGradient17"
+       x1="61.498173"
+       y1="32.919609"
+       x2="162.78928"
+       y2="197.51767"
+       gradientUnits="userSpaceOnUse" /><linearGradient
+       xlink:href="#linearGradient16"
+       id="linearGradient2"
+       x1="1813.2355"
+       y1="-245.03569"
+       x2="1646.2579"
+       y2="717.8667"
+       gradientUnits="userSpaceOnUse" /></defs><g
+     id="layer1"
+     transform="translate(-42.329199,-42.436169)"><path
+       id="path8"
+       style="display:inline;opacity:1;fill:url(#linearGradient17);fill-opacity:1;stroke:none;stroke-width:1.965;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1"
+       d="m 108.49984,42.436169 v 32.075562 l 22.40018,-26.562203 a 62.670673,62.670673 0 0 0 -22.40018,-5.513359 z m -7.00009,0.143661 a 62.670673,62.670673 0 0 0 -22.403803,5.36453 l 22.403803,26.566854 z m 35.75751,8.689909 -28.75742,34.101277 V 115.95726 L 152.34419,63.966121 A 62.670673,62.670673 0 0 0 137.25726,51.269739 Z m -64.44465,0.08268 A 62.670673,62.670673 0 0 0 57.644027,63.952169 L 101.49975,115.95675 V 85.371016 Z m 83.90909,18.280021 -48.22186,57.18359 v 30.5847 L 165.72787,89.538721 A 62.670673,62.670673 0 0 0 156.7217,69.632442 Z M 53.337313,69.70272 a 62.670673,62.670673 0 0 0 -8.971029,19.94762 l 57.133466,67.74987 V 126.81603 Z M 167.32519,98.502515 109.25276,167.36653 a 62.670673,62.670673 0 0 0 58.41814,-62.36674 62.670673,62.670673 0 0 0 -0.34571,-6.497275 z M 42.784985,98.633773 a 62.670673,62.670673 0 0 0 -0.455786,6.366017 62.670673,62.670673 0 0 0 58.417621,62.36674 z" /><text
+       xml:space="preserve"
+       transform="matrix(0.36764608,0,0,0.36764608,-131.84331,-1.5764995)"
+       id="text1"
+       style="font-size:268.676px;white-space:pre;shape-inside:url(#rect1);fill:url(#linearGradient2);fill-opacity:1"><tspan
+         x="910.54883"
+         y="383.65712"
+         id="tspan4"><tspan
+           style="font-family:Montserrat;-inkscape-font-specification:Montserrat"
+           id="tspan3">VERDICARE</tspan></tspan></text></g></svg>
