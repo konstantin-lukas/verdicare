@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "dotenv": "^16.3.1",
-    "flag-icons": "^6.11.0"
+    "flag-icons": "^6.11.0",
+    "react-icons": "^4.10.1"
   }
 }
