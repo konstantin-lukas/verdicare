@@ -1,0 +1,116 @@
+@import '../main';
+@import "../../node_modules/flag-icons/css/flag-icons.min.css";
+
+header {
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 15vw;
+
+  a {
+    display: inline-block;
+    height: 33%;
+
+    img {
+      height: 100%;
+    }
+
+  }
+
+  > div {
+    display: flex;
+  }
+
+  .searchWrapper {
+    border-radius: 2em;
+    @include mainBorder;
+    padding: 0.5em 1.5em;
+    position: relative;
+    margin-right: 1.5em;
+  }
+
+  input[name=search] {
+    font-size: 1rem;
+    border: none;
+    width: 20vw;
+  }
+
+  input[name=search]:not(:placeholder-shown) + .searchIcon {
+    opacity: 0;
+    right: 0;
+  }
+
+  .searchIcon {
+    @include bezier(all);
+    position: absolute;
+    height: 1.4rem;
+    width: 1.4rem;
+    right: 1em;
+    top: 1em;
+    transform: translateY(-42%);
+    color: $borderColor;
+  }
+
+  #languageMenu {
+    position: relative;
+
+    .flagWrapper {
+      border-radius: 50%;
+      display: block;
+      width: calc(2.2rem + 2px);
+      height: calc(2.2rem + 2px);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      box-shadow: rgba(0,0,0,0.3) 0 0 20px;
+    }
+
+    .fi.fis {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+    }
+
+    .languageSelect {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      background: white;
+      width: calc(20vw + 4.6rem + 2px);
+      @include mainBorder;
+      right: 0;
+      top: 4.4rem;
+      border-radius: 1.2rem;
+      padding: 1rem;
+      ul {
+        display: inline-grid;
+        width: 100%;
+        justify-items: center;
+        grid-template-columns: repeat(6, 1fr);
+        @media screen and (max-width: 1600px) {
+          grid-template-columns: repeat(5, 1fr);
+        }
+        @media screen and (max-width: 1200px) {
+          grid-template-columns: repeat(4, 1fr);
+        }
+        li {
+          width: calc(2.2rem + 2px);
+          height: calc(2.2rem + 2px);
+          margin: .75rem;
+        }
+      }
+    }
+
+
+
+
+    .languageSelect.showLangSelect {
+      @include bezier(all);
+      opacity: 1;
+      visibility: visible;
+    }
+
+  }
+
+}

@@ -11,3 +11,12 @@ $borderColor: gray;
 root {
   font-size: 18px;
 }
+
+@mixin bezier($property) {
+  transition: $property .2s cubic-bezier(0,.58,.52,.99);
+}
+
+
+@mixin mainBorder {
+  border: 1px $borderColor solid;
+}
