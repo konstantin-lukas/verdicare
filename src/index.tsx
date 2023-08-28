@@ -2,6 +2,7 @@ import React from 'react';
 import './main.scss';
 import ReactDOM from 'react-dom/client';
 import Header from './components/Header'
+import SearchResults from './components/SearchResults'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -12,6 +13,7 @@ root.render(
   <React.StrictMode>
       <App>
           <Header/>
+          <SearchResults/>
       </App>
   </React.StrictMode>
 );
