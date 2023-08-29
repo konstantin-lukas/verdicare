@@ -11,7 +11,7 @@ function Languages({closeMenuCallback}: {closeMenuCallback:() => void}) {
         return lang.lang !== currentLang.lang;
     }).map(lang => {
         return (
-            <li key={lang.flag} className="flagWrapper" onClick={() => {
+            <li key={lang.flag} data-testid={lang.flag} className="flagWrapper" onClick={() => {
                 setCurrentLang(lang);
                 closeMenuCallback();
             }}>
