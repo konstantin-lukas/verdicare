@@ -54,6 +54,7 @@ header {
 
   #languageMenu {
     position: relative;
+    z-index: 1;
 
     .flagWrapper {
       border-radius: 50%;

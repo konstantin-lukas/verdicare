@@ -1,0 +1,77 @@
+@import '../main';
+
+#searchResults {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  max-width: 70vw;
+}
+
+#searchResults::after {
+  content:"";
+  width: 20vw;
+  height: 5vw;
+}
+.searchResult {
+  width: 20vw;
+  height: 20vw;
+  margin-bottom: 5vw;
+  @include mainBorder;
+  border-radius: 1.5rem;
+  overflow: hidden;
+  > a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    .searchResultImageWrapper {
+      height: 70%;
+      width: 100%;
+      overflow: hidden;
+      .searchResultImage {
+        @include bezier(all);
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    }
+    .searchResultHeadingWrapper{
+      height: 30%;
+      display: flex;
+      margin: 0 1.5rem;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      .searchResultHeading {
+        width: 100%;
+        margin-top: -.2em;
+        font-weight: bold;
+        display: block;
+        font-size: 2rem;
+        text-transform: uppercase;
+        color: #0b8d79;
+        background: -webkit-linear-gradient(80deg, $themeColorDark, $themeColorLight);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        white-space: nowrap;
+      }
+      .searchResultSubheading {
+        color: $borderColor;
+        white-space: nowrap;
+      }
+    }
+    .searchResultHeadingWrapper::after {
+      content: "";
+      width: 3rem;
+      height: 100%;
+      background: white;
+      position: absolute;
+      right: -1.5rem;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,1));
+    }
+  }
+
+  > a:hover .searchResultImage{
+    transform: scale(1.1);
+  }
+
+}

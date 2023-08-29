@@ -1,8 +1,10 @@
 import React from 'react';
 import './main.scss';
 import ReactDOM from 'react-dom/client';
-import Header from './components/Header'
-import SearchResults from './components/SearchResults'
+import Header from './components/Header';
+import Footer from './components/Footer';
+import SearchResults from './components/SearchResults';
+import ContentWrapper from './components/ContentWrapper';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
@@ -13,7 +15,10 @@ root.render(
   <React.StrictMode>
       <App>
           <Header/>
-          <SearchResults/>
+          <ContentWrapper>
+              <SearchResults/>
+          </ContentWrapper>
+          <Footer/>
       </App>
   </React.StrictMode>
 );

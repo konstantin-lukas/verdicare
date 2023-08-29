@@ -1,0 +1,5 @@
+- testing
+- media queries
+- detailed view on plant
+- local default plant selection when search field is empty
+- vendor prefixes
