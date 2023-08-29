@@ -3,3 +3,6 @@
 - detailed view on plant
 - local default plant selection when search field is empty
 - vendor prefixes
+- favicon/metadata
+- sitemap
+- readme file
