@@ -1,5 +1,6 @@
 main {
   width: 100%;
+  min-height: calc(100vh - 200px - 3rem);
   display: flex;
   align-items: center;
   flex-direction: column;

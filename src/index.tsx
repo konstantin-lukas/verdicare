@@ -7,19 +7,53 @@ import SearchResults from './components/SearchResults';
 import ContentWrapper from './components/ContentWrapper';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+const router = createBrowserRouter([
+    {
+        path: '/',
+        element: (
+            <App>
+                <Header/>
+                <ContentWrapper>
+                    <SearchResults/>
+                </ContentWrapper>
+                <Footer/>
+            </App>
+        ),
+        errorElement: (
+            <App>
+                <Header/>
+                <ContentWrapper>
+                    <div>
+                        An error occurred
+                    </div>
+                </ContentWrapper>
+                <Footer/>
+            </App>
+        )
+    }, {
+        path: 'plant/:id',
+        element: (
+            <App>
+                <Header/>
+                <ContentWrapper>
+                    <div>
+                        Hello, world!
+                    </div>
+                </ContentWrapper>
+                <Footer/>
+            </App>
+        )
+    }
+])
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-      <App>
-          <Header/>
-          <ContentWrapper>
-              <SearchResults/>
-          </ContentWrapper>
-          <Footer/>
-      </App>
+      <RouterProvider router={router}/>
   </React.StrictMode>
 );
 
