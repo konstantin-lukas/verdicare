@@ -40,7 +40,6 @@
       margin: 0 1.5rem;
       flex-direction: column;
       justify-content: center;
-      position: relative;
       .searchResultHeading {
         width: 100%;
         margin-top: -.2em;
@@ -53,20 +52,25 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         white-space: nowrap;
+        position: relative;
       }
       .searchResultSubheading {
         color: $borderColor;
         white-space: nowrap;
+        position: relative;
       }
-    }
-    .searchResultHeadingWrapper::after {
-      content: "";
-      width: 3rem;
-      height: 100%;
-      background: white;
-      position: absolute;
-      right: -1.5rem;
-      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,1));
+      .overflowingGradient::after {
+        content: "";
+        width: 3rem;
+        height: 100%;
+        background: white;
+        position: absolute;
+        right: -1.5rem;
+        background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,1), rgba(255,255,255,1));
+      }
+      .extraSpace {
+        margin-right: .3em;
+      }
     }
   }
 

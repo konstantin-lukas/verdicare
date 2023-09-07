@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import Marquee from "react-fast-marquee";
 import './SearchResults.scss';
 export interface searchResult {
     id: number,
@@ -7,8 +8,48 @@ export interface searchResult {
     image: string
 }
 function SearchResult(sr: searchResult) {
+    const [isHeadingOverflowing, setIsHeadingOverflowing] = useState(false);
+    const [isSubheadingOverflowing, setIsSubheadingOverflowing] = useState(false);
+    const [scrollHeading, setScrollHeading] = useState(false);
+    const headingRef = useRef<HTMLElement>(null);
+    const subheadingRef = useRef<HTMLElement>(null);
+
+    useEffect(() => {
+        if (headingRef.current) {
+            const headingElement = headingRef.current;
+            const isOverflowing = headingElement.scrollWidth > headingElement.clientWidth;
+            setIsHeadingOverflowing(isOverflowing);
+        }
+        if (subheadingRef.current) {
+            const subheadingElement = subheadingRef.current;
+            const isOverflowing = subheadingElement.scrollWidth > subheadingElement.clientWidth;
+            setIsSubheadingOverflowing(isOverflowing);
+        }
+    }, []);
+
+    const heading = isHeadingOverflowing && scrollHeading ?
+        (<Marquee gradientWidth={10} gradient={true} className="searchResultHeading">
+            <span ref={headingRef} title={sr.name} className="extraSpace">{sr.name}</span>
+        </Marquee>) :
+        (<span ref={headingRef} title={sr.name} className={
+            isHeadingOverflowing ? "searchResultHeading overflowingGradient" : "searchResultHeading "
+        }>{sr.name}</span>);
+
+    const subheading = isSubheadingOverflowing && scrollHeading ?
+        (<Marquee gradientWidth={10} gradient={true} className="searchResultSubheading">
+            <span ref={subheadingRef} title={sr.scientificName} className="extraSpace">{sr.scientificName} </span>
+        </Marquee>) :
+        (<span ref={subheadingRef} title={sr.scientificName} className={
+            isSubheadingOverflowing ? "searchResultSubheading overflowingGradient" : "searchResultSubheading"
+        }>{sr.scientificName}</span>);
+
+
     return (
-        <li className="searchResult" key={sr.id}>
+        <li className="searchResult" key={sr.id} onMouseOver={() => {
+            setScrollHeading(true);
+        }} onMouseLeave={() => {
+            setScrollHeading(false);
+        }}>
             <a href={`/plant/${sr.id}`}>
                 <div className="searchResultImageWrapper">
                     <span className="searchResultImage" style={
@@ -20,8 +61,8 @@ function SearchResult(sr: searchResult) {
                     }></span>
                 </div>
                 <div className="searchResultHeadingWrapper">
-                    <span title={sr.name} className="searchResultHeading">{sr.name}</span>
-                    <span title={sr.scientificName} className="searchResultSubheading">{sr.scientificName}</span>
+                    {heading}
+                    {subheading}
                 </div>
             </a>
         </li>
