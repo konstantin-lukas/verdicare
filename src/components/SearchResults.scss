@@ -48,11 +48,16 @@
         font-size: 2rem;
         text-transform: uppercase;
         color: #0b8d79;
-        background: -webkit-linear-gradient(80deg, $themeColorDark, $themeColorLight);
+        background: linear-gradient(80deg, $themeColorDark, $themeColorLight);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         white-space: nowrap;
         position: relative;
+      }
+      .scrollingHeading {
+        background: linear-gradient(80deg, $themeColorDark, $themeColorLight, $themeColorDark);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
       .searchResultSubheading {
         color: $borderColor;

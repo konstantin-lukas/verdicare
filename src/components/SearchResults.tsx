@@ -27,9 +27,10 @@ function SearchResult(sr: searchResult) {
         }
     }, []);
 
+
     const heading = isHeadingOverflowing && scrollHeading ?
-        (<Marquee gradientWidth={10} gradient={true} className="searchResultHeading">
-            <span ref={headingRef} title={sr.name} className="extraSpace">{sr.name}</span>
+        (<Marquee gradientWidth={10} gradient={true}>
+            <span ref={headingRef} title={sr.name} className="extraSpace searchResultHeading scrollingHeading">{sr.name}</span>
         </Marquee>) :
         (<span ref={headingRef} title={sr.name} className={
             isHeadingOverflowing ? "searchResultHeading overflowingGradient" : "searchResultHeading "
