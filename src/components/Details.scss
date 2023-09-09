@@ -1,0 +1,54 @@
+@import '../main';
+
+#detailsWrapper {
+  width: 38.2%;
+}
+
+h1 {
+  @include gradientText;
+  font-size: 3rem;
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-top: 10vh;
+  text-align: center;
+}
+
+h2 {
+  font-weight: normal;
+  color: $borderColor;
+  font-size: 1.5rem;
+  margin-top: .4em;
+  margin-bottom: 1em;
+  text-align: center;
+}
+
+h3 {
+  text-transform: uppercase;
+  @include gradientText;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 3em;
+  display: inline-block;
+}
+
+p {
+  margin-top: .5rem;
+  line-height: 2em;
+  font-size: 1.2rem;
+}
+
+p:last-of-type {
+  margin-bottom: 30vh;
+}
+
+#imageWrapper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3rem;
+  img {
+    width: 100%;
+    display: block;
+    margin-bottom: 1rem;
+  }
+}

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Marquee from "react-fast-marquee";
 import './SearchResults.scss';
+import {Link} from "react-router-dom";
 export interface searchResult {
     id: number,
     name: string,
@@ -51,7 +52,7 @@ function SearchResult(sr: searchResult) {
         }} onMouseLeave={() => {
             setScrollHeading(false);
         }}>
-            <a href={`/plant/${sr.id}`}>
+            <Link to={`/plant/${sr.id}`}>
                 <div className="searchResultImageWrapper">
                     <span className="searchResultImage" style={
                         {
@@ -65,7 +66,7 @@ function SearchResult(sr: searchResult) {
                     {heading}
                     {subheading}
                 </div>
-            </a>
+            </Link>
         </li>
     );
 }

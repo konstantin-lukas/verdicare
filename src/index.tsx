@@ -8,6 +8,7 @@ import ContentWrapper from './components/ContentWrapper';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Details from "./components/Details";
 
 const router = createBrowserRouter([
     {
@@ -38,9 +39,7 @@ const router = createBrowserRouter([
             <App>
                 <Header/>
                 <ContentWrapper>
-                    <div>
-                        Hello, world!
-                    </div>
+                    <Details/>
                 </ContentWrapper>
                 <Footer/>
             </App>

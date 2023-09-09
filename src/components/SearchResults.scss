@@ -47,10 +47,7 @@
         display: block;
         font-size: 2rem;
         text-transform: uppercase;
-        color: #0b8d79;
-        background: linear-gradient(80deg, $themeColorDark, $themeColorLight);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+        @include gradientText;
         white-space: nowrap;
         position: relative;
       }

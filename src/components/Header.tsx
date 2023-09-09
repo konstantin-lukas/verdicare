@@ -3,6 +3,7 @@ import {LanguageContext, SetLanguageContext, languages} from '../App';
 import logo from '../media/verdicare.svg'
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
 import './Header.scss';
+import {Link} from "react-router-dom";
 
 function Languages({closeMenuCallback}: {closeMenuCallback:() => void}) {
     const currentLang = useContext(LanguageContext);
@@ -142,9 +143,9 @@ export default function Header() {
 
     return (
         <header>
-            <a href="/">
+            <Link to="/">
                 <img src={logo} alt="Verdicare"/>
-            </a>
+            </Link>
             <div>
                 <div className="searchWrapper">
                     <SearchInput language={language.lang}/>
