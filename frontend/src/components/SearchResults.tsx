@@ -28,7 +28,6 @@ function SearchResult(sr: searchResult) {
         }
     }, []);
 
-
     const heading = isHeadingOverflowing && scrollHeading ?
         (<Marquee gradientWidth={10} gradient={true}>
             <span ref={headingRef} title={sr.name} className="extraSpace searchResultHeading scrollingHeading">{sr.name}</span>
@@ -47,7 +46,7 @@ function SearchResult(sr: searchResult) {
 
 
     return (
-        <li className="searchResult" key={sr.id} onMouseOver={() => {
+        <li className="searchResult" onMouseOver={() => {
             setScrollHeading(true);
         }} onMouseLeave={() => {
             setScrollHeading(false);
@@ -72,39 +71,23 @@ function SearchResult(sr: searchResult) {
 }
 
 export default function SearchResults() {
-    const mock: searchResult[] =
-        [
-            {
-                id: 25,
-                name: 'Venus Fly Trap',
-                scientificName: 'Dionaea muscipula \'Cup-shaped\'',
-                image: 'https://perenual.com/storage/species_image/2_abies_alba_pyramidalis/og/49255769768_df55596553_b.jpg'
-            },
-            {
-                id: 24,
-                name: 'Venus Fly Trap',
-                scientificName: 'Dionaea muscipula \'Cup-shaped\'',
-                image: 'https://perenual.com/storage/species_image/2_abies_alba_pyramidalis/og/49255769768_df55596553_b.jpg'
-            },
-            {
-                id: 59,
-                name: 'Venus Fly Trap Very Cool and Long',
-                scientificName: 'Dionaea muscipula \'Cup-shaped\' also very cool and very loooong',
-                image: 'https://perenual.com/storage/species_image/2_abies_alba_pyramidalis/og/49255769768_df55596553_b.jpg'
-            },
-            {
-                id: 42,
-                name: 'Venus Fly Trap',
-                scientificName: 'Dionaea muscipula \'Cup-shaped\'',
-                image: 'https://perenual.com/storage/species_image/2_abies_alba_pyramidalis/og/49255769768_df55596553_b.jpg'
-            },
-            {
-                id: 242,
-                name: 'Venus Fly Trap',
-                scientificName: 'Dionaea muscipula \'Cup-shaped\'',
-                image: 'https://perenual.com/storage/species_image/2_abies_alba_pyramidalis/og/49255769768_df55596553_b.jpg'
-            }
-        ];
-    const results = mock.map(sr => SearchResult(sr));
-    return <ul id="searchResults">{results}</ul>;
+    const [results, setResults] = useState<searchResult[]>([]);
+
+    useEffect(() => {
+        fetch(process.env.REACT_APP_BACKEND_ADDRESS + '/api/search/1/venus')
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                const copy = results.map(a => {return {...a}}).concat(data);
+                setResults(copy);
+            });
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const html = results.map(sr => (
+        <SearchResult key={sr.id} id={sr.id} name={sr.name} scientificName={sr.scientificName} image={sr.image}/>
+    ));
+    return <ul id="searchResults">{html}</ul>;
 }
