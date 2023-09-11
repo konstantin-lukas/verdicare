@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "express-start-dev": "rm server.js routes/*.js && nodemon ./server.ts --watch routes",
+    "express-start-dev": "rm -f server.js routes/*.js && nodemon ./server.ts --watch routes",
     "express-build": "tsc",
     "express-start": "node server.js"
   },
