@@ -1,9 +1,15 @@
-import React, {useState, useContext} from 'react';
-import {LanguageContext, SetLanguageContext, languages} from '../App';
+import React, {useState, useContext, FormEvent} from 'react';
+import {
+    LanguageContext,
+    SetLanguageContext,
+    languages,
+    SetQueryContext,
+    SetIsTypingContext
+} from '../App';
 import logo from '../media/verdicare.svg'
 import { HiMiniMagnifyingGlass } from 'react-icons/hi2';
 import './Header.scss';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 function Languages({closeMenuCallback}: {closeMenuCallback:() => void}) {
     const currentLang = useContext(LanguageContext);
@@ -25,6 +31,10 @@ function Languages({closeMenuCallback}: {closeMenuCallback:() => void}) {
 
 function SearchInput({language}: {language: string}) {
     let placeholder: string;
+    const navigate = useNavigate();
+    const setQuery = useContext(SetQueryContext);
+    const isTyping = useContext(SetIsTypingContext);
+    const [typingTimeout, setTypingTimeout] = useState<null | NodeJS.Timeout>(null);
 
     switch (language) {
         case 'bg':
@@ -120,7 +130,21 @@ function SearchInput({language}: {language: string}) {
             placeholder = 'Look for a plant';
             break;
     }
-    return <input type="text" name="search" placeholder={placeholder}/>;
+
+    const handleInput = (e: FormEvent) => {
+        setQuery((e.target as HTMLInputElement).value);
+        if (typingTimeout) {
+            clearTimeout(typingTimeout);
+            setTypingTimeout(null);
+        }
+        isTyping(true);
+        setTypingTimeout(setTimeout(() => {
+            isTyping(false);
+            navigate("/");
+        }, 650));
+    }
+
+    return <input type="text" name="search" placeholder={placeholder} onInput={handleInput}/>;
 }
 export default function Header() {
 

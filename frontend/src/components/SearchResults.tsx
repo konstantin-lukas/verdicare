@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useState, useRef, useEffect, useContext} from 'react';
+import {IsTypingContext, QueryContext} from "../App";
 import Marquee from "react-fast-marquee";
 import './SearchResults.scss';
 import {Link} from "react-router-dom";
@@ -72,19 +73,28 @@ function SearchResult(sr: searchResult) {
 
 export default function SearchResults() {
     const [results, setResults] = useState<searchResult[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [blockFetch, setBlockFetch] = useState(false);
+    const query = useContext(QueryContext);
+    const isTyping = useContext(IsTypingContext);
 
     useEffect(() => {
-        fetch(process.env.REACT_APP_BACKEND_ADDRESS + '/api/search/1/venus')
+        if (blockFetch || isTyping) return;
+        setBlockFetch(true);
+        const q = /^\s*$/.test(query) ? `/api/search/${page}/maple` : `/api/search/${page}/${query}`;
+        fetch(process.env.REACT_APP_BACKEND_ADDRESS + q)
             .then(res => {
                 return res.json();
             })
             .then(data => {
-                const copy = results.map(a => {return {...a}}).concat(data);
-                setResults(copy);
+                //const copy = results.map(a => {return {...a}}).concat(data);
+                //setResults(copy);
+                setResults(data);
+                setBlockFetch(false);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [isTyping]);
 
     const html = results.map(sr => (
         <SearchResult key={sr.id} id={sr.id} name={sr.name} scientificName={sr.scientificName} image={sr.image}/>

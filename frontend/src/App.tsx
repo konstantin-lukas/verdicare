@@ -42,18 +42,31 @@ function getInitialLanguage() {
 }
 export let LanguageContext = createContext<{ lang: string, flag: string }>(getInitialLanguage());
 export let SetLanguageContext = createContext<(language: { lang: string, flag: string }) => void>(() => {});
+export let QueryContext = createContext<string>('');
+export let SetQueryContext = createContext<(arg: string) => void>(() => {});
+export let IsTypingContext = createContext<boolean>(false);
+export let SetIsTypingContext = createContext<(arg: boolean) => void>(() => {});
 
 
 export default function App({children}: {children: ReactNode[] | ReactNode}) {
-
-    let [currentLang, setCurrentLang] = useState(useContext(LanguageContext));
+    const [query, setQuery] = useState(useContext(QueryContext));
+    const [typing, setTyping] = useState(useContext(IsTypingContext));
+    const [currentLang, setCurrentLang] = useState(useContext(LanguageContext));
     useEffect(() => {
         localStorage.setItem('language', JSON.stringify(currentLang));
     }, [currentLang]);
     return (
         <LanguageContext.Provider value={currentLang}>
             <SetLanguageContext.Provider value={setCurrentLang}>
-                {children}
+                <QueryContext.Provider value={query}>
+                    <SetQueryContext.Provider value={setQuery}>
+                        <IsTypingContext.Provider value={typing}>
+                            <SetIsTypingContext.Provider value={setTyping}>
+                                {children}
+                           </SetIsTypingContext.Provider>
+                        </IsTypingContext.Provider>
+                    </SetQueryContext.Provider>
+                </QueryContext.Provider>
             </SetLanguageContext.Provider>
         </LanguageContext.Provider>
     );
