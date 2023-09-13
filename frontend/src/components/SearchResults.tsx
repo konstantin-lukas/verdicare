@@ -5,8 +5,8 @@ import './SearchResults.scss';
 import {Link} from "react-router-dom";
 export interface searchResult {
     id: number,
-    name: string,
-    scientificName: string,
+    common_name: string,
+    scientific_name: string,
     image: string
 }
 function SearchResult(sr: searchResult) {
@@ -31,19 +31,19 @@ function SearchResult(sr: searchResult) {
 
     const heading = isHeadingOverflowing && scrollHeading ?
         (<Marquee gradientWidth={10} gradient={true}>
-            <span ref={headingRef} title={sr.name} className="extraSpace searchResultHeading scrollingHeading">{sr.name}</span>
+            <span ref={headingRef} title={sr.common_name} className="extraSpace searchResultHeading scrollingHeading">{sr.common_name}</span>
         </Marquee>) :
-        (<span ref={headingRef} title={sr.name} className={
+        (<span ref={headingRef} title={sr.common_name} className={
             isHeadingOverflowing ? "searchResultHeading overflowingGradient" : "searchResultHeading "
-        }>{sr.name}</span>);
+        }>{sr.common_name}</span>);
 
     const subheading = isSubheadingOverflowing && scrollHeading ?
         (<Marquee gradientWidth={10} gradient={true} className="searchResultSubheading">
-            <span ref={subheadingRef} title={sr.scientificName} className="extraSpace">{sr.scientificName} </span>
+            <span ref={subheadingRef} title={sr.scientific_name} className="extraSpace">{sr.scientific_name} </span>
         </Marquee>) :
-        (<span ref={subheadingRef} title={sr.scientificName} className={
+        (<span ref={subheadingRef} title={sr.scientific_name} className={
             isSubheadingOverflowing ? "searchResultSubheading overflowingGradient" : "searchResultSubheading"
-        }>{sr.scientificName}</span>);
+        }>{sr.scientific_name}</span>);
 
 
     return (
@@ -75,13 +75,23 @@ export default function SearchResults() {
     const [results, setResults] = useState<searchResult[]>([]);
     const [page, setPage] = useState<number>(1);
     const [blockFetch, setBlockFetch] = useState(false);
+    const [nearBottom, setNearBottom] = useState(false);
+    const [reachedEndOfContent, setReachedEndOfContent] = useState(false);
     const query = useContext(QueryContext);
     const isTyping = useContext(IsTypingContext);
 
     useEffect(() => {
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+            const totalHeight = document.documentElement.scrollHeight;
+            const windowHeight = window.innerHeight;
+            setNearBottom(scrollTop + windowHeight > totalHeight - (windowHeight / 2));
+        });
+    }, []);
+    useEffect(() => {
         if (blockFetch || isTyping) return;
         setBlockFetch(true);
-        const q = /^\s*$/.test(query) ? `/api/search/${page}/maple` : `/api/search/${page}/${query}`;
+        const q = /^\s*$/.test(query) ? `/api/search/${page}` : `/api/search/${page}/${query}`;
         fetch(process.env.REACT_APP_BACKEND_ADDRESS + q)
             .then(res => {
                 return res.json();
@@ -90,14 +100,36 @@ export default function SearchResults() {
                 //const copy = results.map(a => {return {...a}}).concat(data);
                 //setResults(copy);
                 setResults(data);
+                setReachedEndOfContent(false);
+                setPage(1);
                 setBlockFetch(false);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isTyping]);
+    useEffect(() => {
+        if (blockFetch || !nearBottom || reachedEndOfContent) return;
+        setBlockFetch(true);
+        const q = /^\s*$/.test(query) ? `/api/search/${page + 1}` : `/api/search/${page + 1}/${query}`;
 
+        // TODO: SASS ONLY TWO ENTRIES
+        fetch(process.env.REACT_APP_BACKEND_ADDRESS + q)
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                if (data.length === 0) {
+                    setReachedEndOfContent(true);
+                } else {
+                    const copy = results.map(a => {return {...a}}).concat(data);
+                    setResults(copy);
+                    setPage(page + 1);
+                }
+                setBlockFetch(false);
+            });
+    }, [nearBottom]);
     const html = results.map(sr => (
-        <SearchResult key={sr.id} id={sr.id} name={sr.name} scientificName={sr.scientificName} image={sr.image}/>
+        <SearchResult key={sr.id} id={sr.id} common_name={sr.common_name} scientific_name={sr.scientific_name} image={sr.image}/>
     ));
     return <ul id="searchResults">{html}</ul>;
 }

@@ -49,6 +49,7 @@ export let SetIsTypingContext = createContext<(arg: boolean) => void>(() => {});
 
 
 export default function App({children}: {children: ReactNode[] | ReactNode}) {
+
     const [query, setQuery] = useState(useContext(QueryContext));
     const [typing, setTyping] = useState(useContext(IsTypingContext));
     const [currentLang, setCurrentLang] = useState(useContext(LanguageContext));
