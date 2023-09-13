@@ -7,7 +7,11 @@
   max-width: 70vw;
 }
 
-#searchResults::after {
+#searchResults.doubleElement :first-child {
+  margin-right: 5vw;
+}
+
+#searchResults:not(.singleElement):not(.doubleElement)::after {
   content:"";
   width: 20vw;
   height: 5vw;

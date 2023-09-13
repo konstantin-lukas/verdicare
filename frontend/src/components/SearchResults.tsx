@@ -1,5 +1,5 @@
 import React, {useState, useRef, useEffect, useContext} from 'react';
-import {IsTypingContext, QueryContext} from "../App";
+import {IsTypingContext, LanguageContext, QueryContext} from "../App";
 import Marquee from "react-fast-marquee";
 import './SearchResults.scss';
 import {Link} from "react-router-dom";
@@ -79,6 +79,7 @@ export default function SearchResults() {
     const [reachedEndOfContent, setReachedEndOfContent] = useState(false);
     const query = useContext(QueryContext);
     const isTyping = useContext(IsTypingContext);
+    const language = useContext(LanguageContext);
 
     useEffect(() => {
         window.addEventListener('scroll', () => {
@@ -91,28 +92,32 @@ export default function SearchResults() {
     useEffect(() => {
         if (blockFetch || isTyping) return;
         setBlockFetch(true);
-        const q = /^\s*$/.test(query) ? `/api/search/${page}` : `/api/search/${page}/${query}`;
+        const q = /^\s*$/.test(query) ?
+            `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page)}` :
+            `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page)}/${encodeURIComponent(query)}`;
         fetch(process.env.REACT_APP_BACKEND_ADDRESS + q)
             .then(res => {
                 return res.json();
             })
             .then(data => {
-                //const copy = results.map(a => {return {...a}}).concat(data);
-                //setResults(copy);
                 setResults(data);
                 setReachedEndOfContent(false);
                 setPage(1);
                 setBlockFetch(false);
+            })
+            .catch(() => {
+                setBlockFetch(false);
             });
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isTyping]);
+    }, [isTyping, language]);
     useEffect(() => {
         if (blockFetch || !nearBottom || reachedEndOfContent) return;
         setBlockFetch(true);
-        const q = /^\s*$/.test(query) ? `/api/search/${page + 1}` : `/api/search/${page + 1}/${query}`;
+        const q = /^\s*$/.test(query) ?
+            `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page + 1)}` :
+            `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page + 1)}/${encodeURIComponent(query)}`;
 
-        // TODO: SASS ONLY TWO ENTRIES
         fetch(process.env.REACT_APP_BACKEND_ADDRESS + q)
             .then(res => {
                 return res.json();
@@ -126,10 +131,17 @@ export default function SearchResults() {
                     setPage(page + 1);
                 }
                 setBlockFetch(false);
+            })
+            .catch(() => {
+                setBlockFetch(false);
             });
     }, [nearBottom]);
-    const html = results.map(sr => (
-        <SearchResult key={sr.id} id={sr.id} common_name={sr.common_name} scientific_name={sr.scientific_name} image={sr.image}/>
-    ));
+    const html = results.map(sr => {
+        return <SearchResult key={sr.id} id={sr.id} common_name={sr.common_name} scientific_name={sr.scientific_name} image={sr.image}/>
+    });
+    if (html.length === 1)
+        return <ul id="searchResults" className="singleElement">{html}</ul>;
+    if (html.length === 2)
+        return <ul id="searchResults" className="doubleElement">{html}</ul>
     return <ul id="searchResults">{html}</ul>;
 }
