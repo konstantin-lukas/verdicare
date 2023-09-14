@@ -4,43 +4,95 @@ import 'dotenv/config';
 import {TargetLanguageCode} from "deepl-node";
 const router = express.Router();
 
-router.get('/details/:id', (req: Request, res: Response) => {
+router.get('/details/:lang/:id', async (req: Request, res: Response) => {
     res.type('json');
 
-    const detailsResponse = {"id":69,"common_name":"Kandy Kitchen Japanese Maple","scientific_name":["Acer palmatum 'Kandy Kitchen'"],"other_name":[],"family":null,"origin":["Japan"],"type":"tree","dimension":"Height:  6 feet","dimensions":{"type":"Height","min_value":6,"max_value":6,"unit":"feet"},"cycle":"Perennial","attracts":[],"propagation":["Grafting Propagation","Cutting","Layering Propagation","Air Layering Propagation","Root Division"],"hardiness":{"min":"5","max":"5"},"hardiness_location":{"full_url":"https:\/\/perenual.com\/api\/hardiness-map?species_id=69&size=og&key=sk-QB8564e204a7366e81934","full_iframe":"<iframe frameborder=0 scrolling=yes seamless=seamless width=1000 height=550 style='margin:auto;' src='https:\/\/perenual.com\/api\/hardiness-map?species_id=69&size=og&key=sk-QB8564e204a7366e81934'><\/iframe>"},"watering":"Average","depth_water_requirement":[],"volume_water_requirement":[],"watering_period":null,"watering_general_benchmark":{"value":"7-10","unit":"days"},"plant_anatomy":[],"sunlight":["full sun","part shade"],"pruning_month":["March","April","August","June","July","August"],"pruning_count":{"amount":1,"interval":"yearly"},"seeds":0,"maintenance":null,"care-guides":"http:\/\/perenual.com\/api\/species-care-guide-list?species_id=69&key=sk-","soil":[],"growth_rate":"Low","drought_tolerant":false,"salt_tolerant":false,"thorny":false,"invasive":false,"tropical":false,"indoor":false,"care_level":"Medium","pest_susceptibility":[],"pest_susceptibility_api":"Coming Soon","flowers":false,"flowering_season":null,"flower_color":"","cones":false,"fruits":false,"edible_fruit":false,"edible_fruit_taste_profile":"Coming Soon","fruit_nutritional_value":"Coming Soon","fruit_color":[],"harvest_season":null,"leaf":true,"leaf_color":["green","red","pink"],"edible_leaf":false,"cuisine":false,"medicinal":false,"poisonous_to_humans":0,"poisonous_to_pets":0,"description":"The Kandy Kitchen Japanese Maple is an amazing plant species to add to any garden or landscape. With its red and white variegated leaves and orange-red fall color, it adds an impressive splash of color. It's an upright, rounded form and fast growth rate make it a dynamic feature, and it grows well in both full sun and partial shade, making it an extremely versatile species. This Japanese Maple does well in USDA Hardiness Zones 5-9, making it a \"must-have\" for any temperate garden. It is disease and pest resistant, and is relatively drought tolerant as well. With beautiful foliage and petite size, the Kandy Kitchen Japanese Maple is a great addition to any yard!","default_image":{"license":4,"license_name":"Attribution License","license_url":"https:\/\/creativecommons.org\/licenses\/by\/2.0\/","original_url":"https:\/\/perenual.com\/storage\/species_image\/69_acer_palmatum_kandy_kitchen\/og\/51150061025_29f690d490_b.jpg","regular_url":"https:\/\/perenual.com\/storage\/species_image\/69_acer_palmatum_kandy_kitchen\/regular\/51150061025_29f690d490_b.jpg","medium_url":"https:\/\/perenual.com\/storage\/species_image\/69_acer_palmatum_kandy_kitchen\/medium\/51150061025_29f690d490_b.jpg","small_url":"https:\/\/perenual.com\/storage\/species_image\/69_acer_palmatum_kandy_kitchen\/small\/51150061025_29f690d490_b.jpg","thumbnail":"https:\/\/perenual.com\/storage\/species_image\/69_acer_palmatum_kandy_kitchen\/thumbnail\/51150061025_29f690d490_b.jpg"},"other_images":"Upgrade Plan To Supreme For Access https:\/\/perenual.com\/subscription-api-pricing. Im sorry"}
-    const careResponse = {"data":[{"id":1605,"species_id":69,"common_name":"Kandy Kitchen Japanese Maple","scientific_name":["Acer palmatum 'Kandy Kitchen'"],"section":[{"id":5020,"type":"watering","description":"Kandy Kitchen Japanese Maple (Acer palmatum 'Kandy Kitchen') should be watered deeply and infrequently, approximately every 7 days during the growing season. During the hot summer months, watering should be increased to ensure the root system does not dry out. In mid-summer (July and August), 2 to 3 waterings per week are recommended. When watering, use enough water to saturate the root system and allow the soil to dry out between waterings."},{"id":5021,"type":"sunlight","description":"Kandy Kitchen Japanese Maple (Acer palmatum 'Kandy Kitchen') prefers to be grown in bright, filtered sunlight or partial shade. For optimal health, up to 4 hours of direct sunlight per day is best. Keep in mind that the amount of direct sun is dependent on your region and climate, and the plant must be protected from scorching midday rays. To ensure that your Kandy Kitchen Japanese Maple plant gets the right amount of sunlight, they should be placed in a location that receives morning sun and some additional dappled sun during the late afternoon. Direct sun in the afternoon should be avoided so the foliage does not become scorched."},{"id":5022,"type":"pruning","description":"Kandy Kitchen Japanese Maple should be pruned in early spring, ideally right after the last frost, or in late summer after the harshest of summer's heat has passed. Cut back branches that have grown too long and prune away dead or unhealthy branches as needed. Pruning can help to promote a fuller, more natural looking foliage shape for this type of tree. Be careful not to over prune as this can cause the tree to be unhealthy and slow down its growth. It is best to remove no more than 1-third of the tree at any 1 time. This will encourage a healthy growth and keep the Japanese Maple looking its best."}]}],"to":1,"per_page":30,"current_page":1,"from":1,"last_page":1,"total":1}
+    let detailsURI = `https://perenual.com/api/species/details/${req.params.id}?key=${process.env.PERENUAL_API_KEY}`;
+    let careGuideURI = `https://perenual.com/api/species-care-guide-list?key=${process.env.PERENUAL_API_KEY}&species_id=${req.params.id}`;
 
-    if (!careResponse.data ||
-        careResponse.data.length === 0 ||
-        !careResponse.data[0].common_name ||
-        !careResponse.data[0].scientific_name ||
-        !detailsResponse ||
-        !detailsResponse.default_image ||
-        !detailsResponse.default_image.regular_url ||
-        !detailsResponse.description) {
+
+    const detailsResponse = await fetch(detailsURI).then(res => res.json()).catch(() => null);
+    const careResponse = await fetch(careGuideURI).then(res => res.json()).catch(() => null);
+
+
+    //const detailsResponse = {"id":5,"common_name":"Fraser Fir","scientific_name":["Abies fraseri"],"other_name":["Southern Fir"],"family":"Pinaceae","origin":["Southeastern United States"],"type":"tree","dimension":"Height:  35 feet","dimensions":{"type":"Height","min_value":35,"max_value":35,"unit":"feet"},"cycle":"Perennial","attracts":[],"propagation":["Seed Propagation","Seed Propagation","Seed Propagation","Cutting","Grafting Propagation","Layering Propagation","Tissue Culture"],"hardiness":{"min":"6","max":"6"},"hardiness_location":{"full_url":"https:\/\/perenual.com\/api\/hardiness-map?species_id=5&size=og&key=sk-xIVb64fd7712c15411934","full_iframe":"<iframe frameborder=0 scrolling=yes seamless=seamless width=1000 height=550 style='margin:auto;' src='https:\/\/perenual.com\/api\/hardiness-map?species_id=5&size=og&key=sk-xIVb64fd7712c15411934'><\/iframe>"},"watering":"Frequent","depth_water_requirement":[],"volume_water_requirement":[],"watering_period":null,"watering_general_benchmark":{"value":null,"unit":"days"},"plant_anatomy":[{"part":"leaves","color":["dark-green"]},{"part":"cones","color":["light-green"]},{"part":"branches","color":["silver"]}],"sunlight":["full sun","part shade","filtered shade"],"pruning_month":["February","March","April","June","July","August"],"pruning_count":[],"seeds":0,"maintenance":"Moderate","care-guides":"http:\/\/perenual.com\/api\/species-care-guide-list?species_id=5&key=sk-xIVb64fd7712c15411934","soil":["Well-drained"],"growth_rate":"Moderate","drought_tolerant":false,"salt_tolerant":false,"thorny":false,"invasive":false,"tropical":false,"indoor":false,"care_level":"Medium","pest_susceptibility":["Aphids","adelgids","  Pest resistant"," Disease resistant "],"pest_susceptibility_api":"Coming Soon","flowers":true,"flowering_season":null,"flower_color":"No flowers, Brown","cones":true,"fruits":false,"edible_fruit":false,"edible_fruit_taste_profile":"Coming Soon","fruit_nutritional_value":"Coming Soon","fruit_color":[],"harvest_season":null,"leaf":true,"leaf_color":["green"],"edible_leaf":false,"cuisine":false,"medicinal":false,"poisonous_to_humans":0,"poisonous_to_pets":0,"description":"The Fraser Fir (Abies fraseri) is an amazing tree species with many great qualities. It is a dense evergreen conifer native to the Appalachian mountains. Its pyramidal shape and glossy dark green needles, that curve upward, make it a beautiful and popular Christmas tree. Its needles are short, soft, flat and pleasant to the touch. It has been found to be highly resistant to pests, diseases, and environmental stress. Additionally, it has superior winter hardiness and a strong wood that produces very little sap. This incredible species is perfect for a variety of evergreen applications and is guaranteed to bring a unique and beautiful look to any landscape.","default_image":{"license":4,"license_name":"Attribution License","license_url":"https:\/\/creativecommons.org\/licenses\/by\/2.0\/","original_url":"https:\/\/perenual.com\/storage\/species_image\/5_abies_fraseri\/og\/36843539702_e80fc436e0_b.jpg","regular_url":"https:\/\/perenual.com\/storage\/species_image\/5_abies_fraseri\/regular\/36843539702_e80fc436e0_b.jpg","medium_url":"https:\/\/perenual.com\/storage\/species_image\/5_abies_fraseri\/medium\/36843539702_e80fc436e0_b.jpg","small_url":"https:\/\/perenual.com\/storage\/species_image\/5_abies_fraseri\/small\/36843539702_e80fc436e0_b.jpg","thumbnail":"https:\/\/perenual.com\/storage\/species_image\/5_abies_fraseri\/thumbnail\/36843539702_e80fc436e0_b.jpg"},"other_images":"Upgrade Plan To Supreme For Access https:\/\/perenual.com\/subscription-api-pricing. Im sorry"}
+    //const careResponse = {"data":[{"id":47,"species_id":5,"common_name":"Fraser Fir","scientific_name":["Abies fraseri"],"section":[{"id":1199,"type":"watering","description":"Fraser Fir (Abies fraseri) should be watered once every 2 weeks in the spring and summer. In the fall and winter, Fraser Fir should be watered only when the top few inches of soil become dry (around once a month). Water thoroughly until water runs out of the drainage holes. It is important to check the plant's soil moisture levels before watering to ensure that the soil doesn't become too wet."},{"id":1200,"type":"sunlight","description":"Fraser Fir (Abies fraseri) plants require full sun to thrive and will benefit from at least 6 hours of direct sunlight each day. This species usually does better in cooler climates, where it will receive partial or filtered light for the remainder of the day. It is important to remember that during the summer months, when the days are longer, Fraser Fir can still become stressed from too much exposure to sunlight, especially when temperatures are very high. To avoid sunscald or other damage, make sure to give your Fraser Fir some shade in the afternoon or on particularly hot days."},{"id":1201,"type":"pruning","description":"Pruning should generally be done in late winter or early spring, when the Fraser Fir tree is dormant. Otherwise, it is best to prune in the summer. Pruning should be done lightly, taking no more than 10-15% of the tree's foliage away. This will allow the tree time to heal and put its energy into new growth and development. If you have to prune more than that, divide it up over several years."}]}],"to":1,"per_page":30,"current_page":1,"from":1,"last_page":1,"total":1}
+
+    if (!(careResponse?.data?.length > 0) ||
+        !careResponse?.data?.[0]?.common_name ||
+        !careResponse?.data?.[0]?.scientific_name ||
+        !detailsResponse?.default_image?.regular_url ||
+        !detailsResponse?.description) {
         res.send({});
     } else {
-        const watering = careResponse.data[0].section.find(obj => {
+        const watering = careResponse.data[0].section.find((obj: any) => {
             return obj.type === 'watering' && typeof obj.description !== 'undefined' && obj.description !== null
         });
-        const sunlight = careResponse.data[0].section.find(obj => {
+        const sunlight = careResponse.data[0].section.find((obj: any) => {
             return obj.type === 'sunlight' && typeof obj.description !== 'undefined' && obj.description !== null
         });
-        const pruning = careResponse.data[0].section.find(obj => {
+        const pruning = careResponse.data[0].section.find((obj: any) => {
             return obj.type === 'pruning' && typeof obj.description !== 'undefined' && obj.description !== null
         });
-        const mock = {
-            common_name: careResponse.data[0].common_name,
-            scientific_name: Array.isArray(careResponse.data[0].scientific_name) ?
+        if (!req.params.lang || req.params.lang === 'en' || req.params.lang === 'en-gb' || req.params.lang === 'en-us') {
+            res.send({
+                common_name: careResponse.data[0].common_name,
+                scientific_name: Array.isArray(careResponse.data[0].scientific_name) ?
+                    careResponse.data[0].scientific_name[0] :
+                    careResponse.data[0].scientific_name,
+                image: detailsResponse.default_image.regular_url,
+                description: detailsResponse.description,
+                watering: watering?.description,
+                sunlight: sunlight?.description,
+                pruning: pruning?.description,
+            });
+        } else {
+            const lang = decodeURIComponent(req.params.lang);
+            const translator = new deepl.Translator(process.env.DEEPL_API_KEY as string);
+            const common_name = await translator.translateText(careResponse.data[0].common_name as string, 'en', lang as TargetLanguageCode)
+                .then((result) => result.text)
+                .catch(() => careResponse.data[0].common_name);
+            const scientific_name = await translator.translateText((Array.isArray(careResponse.data[0].scientific_name) ?
                 careResponse.data[0].scientific_name[0] :
-                careResponse.data[0].scientific_name,
-            image: detailsResponse.default_image.regular_url,
-            description: detailsResponse.description,
-            watering: watering?.description,
-            sunlight: sunlight?.description,
-            pruning: pruning?.description,
-        };
-        res.send(mock);
+                careResponse.data[0].scientific_name) as string, 'en', lang as TargetLanguageCode)
+                .then((result) => result.text)
+                .catch(() => Array.isArray(careResponse.data[0].scientific_name) ?
+                    careResponse.data[0].scientific_name[0] :
+                    careResponse.data[0].scientific_name);
+            const description = await translator.translateText(detailsResponse.description as string, 'en', lang as TargetLanguageCode)
+                .then((result) => result.text)
+                .catch(() => detailsResponse.description);
+
+            let translatedWatering: string = watering?.description;
+            let translatedSunlight = sunlight?.description;
+            let translatedPruning = pruning?.description;
+            if (translatedWatering) {
+                translatedWatering = await translator.translateText(watering.description as string, 'en', lang as TargetLanguageCode)
+                    .then((result) => result.text)
+                    .catch(() => watering.description);
+            }
+            if (translatedSunlight) {
+                translatedSunlight = await translator.translateText(sunlight.description as string, 'en', lang as TargetLanguageCode)
+                    .then((result) => result.text)
+                    .catch(() => sunlight.description);
+            }
+            if (translatedPruning) {
+                translatedPruning = await translator.translateText(pruning.description as string, 'en', lang as TargetLanguageCode)
+                    .then((result) => result.text)
+                    .catch(() => pruning.description);
+            }
+            res.send({
+                common_name,
+                scientific_name,
+                image: detailsResponse.default_image.regular_url,
+                description,
+                watering: translatedWatering,
+                sunlight: translatedSunlight,
+                pruning: translatedPruning
+            });
+
+        }
+
     }
 
 

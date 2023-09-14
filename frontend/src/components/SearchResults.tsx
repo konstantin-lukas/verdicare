@@ -92,6 +92,7 @@ export default function SearchResults() {
     useEffect(() => {
         if (blockFetch || isTyping) return;
         setBlockFetch(true);
+        setResults([]);
         const q = /^\s*$/.test(query) ?
             `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page)}` :
             `/api/search/${encodeURIComponent(language.lang)}/${encodeURIComponent(page)}/${encodeURIComponent(query)}`;
@@ -136,6 +137,12 @@ export default function SearchResults() {
                 setBlockFetch(false);
             });
     }, [nearBottom]);
+    if (results.length === 0)
+        return(<ul id="searchResults" className="singleElement">
+            <li>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"/>
+            </li>
+        </ul>);
     const html = results.map(sr => {
         return <SearchResult key={sr.id} id={sr.id} common_name={sr.common_name} scientific_name={sr.scientific_name} image={sr.image}/>
     });

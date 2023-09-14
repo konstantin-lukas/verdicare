@@ -14,25 +14,26 @@ export default function Details() {
         pruning: string | undefined,
     }>(null);
     const { id } = useParams();
-    const language = useContext(LanguageContext).lang;
+    const language = useContext(LanguageContext);
     useEffect(() => {
-        fetch(process.env.REACT_APP_BACKEND_ADDRESS + '/api/details/1')
+        setData(null);
+        fetch(process.env.REACT_APP_BACKEND_ADDRESS + `/api/details/${encodeURIComponent(language.lang)}/${id}`)
             .then(res => {
                 return res.json();
             })
             .then(res => {
                 setData(res);
-            });
+            }).catch(() => {});
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [language]);
 
     if (data === null)
-        return <div>Loading information</div>;
+        return <div><img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"/></div>;
     if (JSON.stringify(data) === '{}')
         return <div>Unknown plant ID!</div>;
 
     let watering, sunlight, pruning;
-    switch (language) {
+    switch (language.lang) {
         case 'bg':
             watering = 'Поливане';
             sunlight = 'Слънчева светлина';

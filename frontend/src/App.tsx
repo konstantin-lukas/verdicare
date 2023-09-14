@@ -36,8 +36,17 @@ export const languages: { lang: string, flag: string }[] = [
 
 function getInitialLanguage() {
     const language = localStorage.getItem('language');
-    if (language === null)
+    if (language === null) {
+        const browserLang = navigator?.language?.toLowerCase();
+        if (browserLang) {
+            const foundLanguage = languages.find(lang => {
+                return browserLang === lang.lang;
+            });
+            if (typeof foundLanguage !== 'undefined')
+                return foundLanguage;
+        }
         return languages[6];
+    }
     return JSON.parse(language);
 }
 export let LanguageContext = createContext<{ lang: string, flag: string }>(getInitialLanguage());

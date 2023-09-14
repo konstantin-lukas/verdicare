@@ -16,3 +16,6 @@ a {
     color: inherit;
 }
 
+li {
+    list-style-type: none;
+}
