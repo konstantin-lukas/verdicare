@@ -5,9 +5,7 @@
   "homepage": ".",
   "scripts": {
     "react-start": "react-scripts start",
-    "react-build": "BUILD_PATH='../backend/public' react-scripts build",
-    "react-test": "react-scripts test",
-    "react-eject": "react-scripts eject"
+    "react-build": "BUILD_PATH='../backend/public' react-scripts build"
   },
   "eslintConfig": {
     "extends": [

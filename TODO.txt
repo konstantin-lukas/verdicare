@@ -1,6 +1,0 @@
-- testing
-- media queries
-- vendor prefixes
-- favicon/metadata
-- sitemap
-- readme file + screenshots

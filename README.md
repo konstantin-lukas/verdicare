@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+# Verdicare
+This is an API-based React/Express app I built for practice. On the main screen
+you can search for plants and when you click on one, it takes you to a more detailed
+view with a description and a care guide. It features automatic reloading when entering
+something into the search bar, when changing the language or when scrolling to the end
+of the page (load more).
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Scripts
+The project is divided into a frontend and a backend section, so the scripts are
+in two separate package.json files. To either the frontend or the backend, you
+first need to create a .env file right next to the .env.sample and fill in the necessary
+information. To do this you require an API key from Perenual and from DeepL.
+```
+react-start
+```
+This starts a development server for the React frontend. When running this, the backend
+also needs to be running so that the backend can fetch information from it. When using
+the frontend dev server with the backend server, you need to install a browser plugin
+that enables cross-origin resource sharing (CORS) or else you browser will block
+the frontend's requests to the backend.
+```
+react-build
+```
+This builds the frontend and places it in the right position in the backend folder.
+```
+express-start-dev
+```
+This starts the backend development server without having to compile the typescript files
+first. You need to build the React frontend first even when just using the api from
+the backend.
+```
+express-build
+```
+This compiles the backend typescript for deployment.
+```
+express-start
+```
+This starts the built backend with node. You need to build first.
+## Deployment
+For deployment follow these steps:
+1. Enter production values into both .env files
+2. Build the frontend
+3. Build the backend
 
-## Available Scripts
+The files you need to deploy are the following:
+- /backend/public/**/*
+- /backend/routes/**/*.js
+- /backend/server.js
 
-In the project directory, you can run:
+When these files are in place, you should be able to start the server.js file with Node.
 
-### `npm start`
+## Demo
+If you just want to look at the website a bit, here are some screenshots:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Search Page In English
+![Search English](screencapture-english-search.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Search Page Translated (To Korean)
+![Search English](screencapture-korean-search.png)
 
-### `npm test`
+### Details Page In English
+![Search English](screencapture-english-details.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Details Page Translated (To Korean)
+![Search English](screencapture-korean-details.png)

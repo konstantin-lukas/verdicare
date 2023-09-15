@@ -28,7 +28,14 @@ export default function Details() {
     }, [language]);
 
     if (data === null)
-        return <div><img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"/></div>;
+        return (
+            <div>
+                <img draggable={false}
+                     style={{ userSelect: "none" }}
+                     src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"
+                />
+            </div>
+        );
     if (JSON.stringify(data) === '{}')
         return <div>Unknown plant ID!</div>;
 

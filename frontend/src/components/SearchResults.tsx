@@ -140,7 +140,10 @@ export default function SearchResults() {
     if (results.length === 0)
         return(<ul id="searchResults" className="singleElement">
             <li>
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"/>
+                <img draggable={false}
+                     style={{ userSelect: "none" }}
+                     src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif" alt="Loading"
+                />
             </li>
         </ul>);
     const html = results.map(sr => {
