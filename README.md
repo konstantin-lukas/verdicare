@@ -59,7 +59,7 @@ If you just want to look at the website a bit, here are some screenshots:
 ![Search English](screencapture-korean-search.png)
 
 ### Details Page In English
-![Search English](screencapture-english-details.png)
+![Search English](screencapture-korean-details.png)
 
 ### Details Page Translated (To Korean)
-![Search English](screencapture-korean-details.png)
+![Search English](screencapture-english-details.png)
